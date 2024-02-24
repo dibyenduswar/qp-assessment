@@ -1,4 +1,4 @@
-import { IsNotEmpty , IsDecimal, IsNumber, IsArray } from 'class-validator';
+import { IsNotEmpty , IsDecimal, IsNumber, IsArray, Max } from 'class-validator';
 
 export class UpdateInventoryDto {
     @IsNotEmpty()
@@ -24,6 +24,7 @@ export class UpdateInventoryDto {
     priceListing: number;
 
     @IsNumber()
+    @Max(90, { message: 'priceListingDisc must be less than 100' })
     priceListingDisc: number;
 
     // @IsNumber()

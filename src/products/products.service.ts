@@ -72,7 +72,7 @@ export class ProductsService {
         inventoryModel.isActive = createInventoryDto.isActive;
         inventoryModel.priceListing = createInventoryDto.priceListing;
         inventoryModel.priceListingDisc = createInventoryDto.priceListingDisc || 0;
-        inventoryModel.priceListingEffective = createInventoryDto.priceListing * createInventoryDto.priceListingDisc / 100;
+        inventoryModel.priceListingEffective = createInventoryDto.priceListing * (100 - createInventoryDto.priceListingDisc || 0) / 100;
 
         let batchInfo = await this.findProductBatch(id, inventoryModel.batchNo);
         if(batchInfo.length) {
@@ -108,7 +108,7 @@ export class ProductsService {
                 [`inventories.${inventoryIndex}.expiry`]: updateInventoryDto.expiry,
                 [`inventories.${inventoryIndex}.priceListing`]: updateInventoryDto.priceListing,
                 [`inventories.${inventoryIndex}.priceListingDisc`]: updateInventoryDto.priceListingDisc,
-                [`inventories.${inventoryIndex}.priceListingEffective`]: updateInventoryDto.priceListing * (updateInventoryDto.priceListingDisc || 0) / 100,
+                [`inventories.${inventoryIndex}.priceListingEffective`]: updateInventoryDto.priceListing * (100 - updateInventoryDto.priceListingDisc || 0) / 100,
                 [`inventories.${inventoryIndex}.isActive`]: updateInventoryDto.isActive,
                 [`inventories.${inventoryIndex}.updatedAt`]: new Date()
             }
@@ -133,7 +133,7 @@ export class ProductsService {
         if (inventoryIndex === -1) {
             throw new Error("Product batch is not available.");
         }
-
+ 
         const update = {
             $set: {
                 [`inventories.${inventoryIndex}.isActive`]: false,
@@ -141,7 +141,6 @@ export class ProductsService {
             }
         };
         
-        // Use findByIdAndUpdate to update only the relevant fields
         return this.productModel.findByIdAndUpdate(
             deleteInventoryDto.productID,
             update,

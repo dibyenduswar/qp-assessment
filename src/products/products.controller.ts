@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Post, Put, Req, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Post, Put, Req, UseGuards, } from '@nestjs/common';
 import { Request } from 'express';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dtos/create-product.dto';
@@ -7,8 +7,11 @@ import { DeleteProductDto } from './dtos/delete-product.dto';
 import { CreateInventoryDto } from './dtos/create-inventory.dto';
 import { UpdateInventoryDto } from './dtos/update-inventory.dto';
 import { DeleteInventoryDto } from './dtos/delete-inventory.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { Roles } from 'src/auth/roles.decorator';
 
-@Controller('products')
+@Controller('be/products')
 export class ProductsController {
     constructor(private productsService: ProductsService) {}
 
@@ -20,6 +23,8 @@ export class ProductsController {
 
     @Post('/')
     @HttpCode(201)
+    @Roles('Admin')
+    @UseGuards(AuthGuard, RolesGuard)
     async create(@Body() createProductDto: CreateProductDto) {
         let product = await this.productsService.findByName(createProductDto.name);
         if(product) {
@@ -45,6 +50,8 @@ export class ProductsController {
 
     @Delete('/')
     @HttpCode(200)
+    @Roles('Admin')
+    @UseGuards(AuthGuard, RolesGuard)
     async delete(@Body() deleteProductDto: DeleteProductDto) {
         let product = await this.productsService.findById(deleteProductDto.id);
         if(!product) {
@@ -57,6 +64,8 @@ export class ProductsController {
 
     @Post('/inventory')
     @HttpCode(201)
+    @Roles('Admin')
+    @UseGuards(AuthGuard, RolesGuard)
     async createInventory(@Body() createInventoryDto: CreateInventoryDto) {
         try {
             return await this.productsService.createInventory(createInventoryDto.productID, createInventoryDto);
@@ -67,6 +76,8 @@ export class ProductsController {
 
     @Put('/inventory')
     @HttpCode(200)
+    @Roles('Admin')
+    @UseGuards(AuthGuard, RolesGuard)
     async updateInventory(@Body() updateInventoryDto: UpdateInventoryDto) {
         try {
             return await this.productsService.updateInventory(updateInventoryDto.id, updateInventoryDto);
@@ -77,6 +88,8 @@ export class ProductsController {
 
     @Delete('/inventory')
     @HttpCode(200)
+    @Roles('Admin')
+    @UseGuards(AuthGuard, RolesGuard)
     async deleteInventory(@Body() deleteInventoryDto: DeleteInventoryDto) {
         try {
             return await this.productsService.deleteInventory(deleteInventoryDto);

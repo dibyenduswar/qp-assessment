@@ -43,9 +43,7 @@ export const InventorySchema = SchemaFactory.createForClass(Inventory);
 
 @Schema()
 export class Product {
-  // @Prop()
-  // id: string;
-
+ 
   @Prop({ required: true, index: true, sparse: true })
   name: string;
 
