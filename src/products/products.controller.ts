@@ -4,6 +4,9 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { DeleteProductDto } from './dtos/delete-product.dto';
+import { CreateInventoryDto } from './dtos/create-inventory.dto';
+import { UpdateInventoryDto } from './dtos/update-inventory.dto';
+import { DeleteInventoryDto } from './dtos/delete-inventory.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -49,6 +52,36 @@ export class ProductsController {
         } else {
             product = await this.productsService.delete(deleteProductDto.id);
             return product;
+        }
+    }
+
+    @Post('/inventory')
+    @HttpCode(201)
+    async createInventory(@Body() createInventoryDto: CreateInventoryDto) {
+        try {
+            return await this.productsService.createInventory(createInventoryDto.productID, createInventoryDto);
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Put('/inventory')
+    @HttpCode(200)
+    async updateInventory(@Body() updateInventoryDto: UpdateInventoryDto) {
+        try {
+            return await this.productsService.updateInventory(updateInventoryDto.id, updateInventoryDto);
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Delete('/inventory')
+    @HttpCode(200)
+    async deleteInventory(@Body() deleteInventoryDto: DeleteInventoryDto) {
+        try {
+            return await this.productsService.deleteInventory(deleteInventoryDto);
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.FORBIDDEN);
         }
     }
 }

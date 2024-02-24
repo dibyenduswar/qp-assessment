@@ -16,9 +16,30 @@ export class Inventory {
 
   @Prop({ required: true})
   expiry: string;
+
+  @Prop({ required: false, default: new Date() })
+  createdAt: Date;
+
+  @Prop({ required: false, default: new Date() })
+  updatedAt: Date;
+
+  @Prop({ index: true, default: false })
+  isDeleted: Boolean;
+
+  @Prop({ index: true, default: false })
+  isActive: Boolean;
+
+  @Prop({ required: true})
+  priceListing: number
+
+  @Prop({ required: true})
+  priceListingDisc: number
+
+  @Prop({ required: true})
+  priceListingEffective: number
 }
 
-const InventorySchema = SchemaFactory.createForClass(Inventory);
+export const InventorySchema = SchemaFactory.createForClass(Inventory);
 
 @Schema()
 export class Product {
