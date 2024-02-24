@@ -18,10 +18,10 @@ export class CreateProductDto {
     unitQuantity: number;
 
     @IsNumber()
-    minOrderQuantiry: number;
+    minOrderQuantity: number;
 
     @IsNumber()
-    maxOrderQuantiry: number;
+    maxOrderQuantity: number;
 
     @IsNotEmpty()
     @IsArray()

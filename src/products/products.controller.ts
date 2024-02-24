@@ -1,7 +1,9 @@
-import { Body, Controller, Get, HttpCode, Post, Req, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Post, Put, Req, } from '@nestjs/common';
 import { Request } from 'express';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './create-product.dto';
+import { CreateProductDto } from './dtos/create-product.dto';
+import { UpdateProductDto } from './dtos/update-product.dto';
+import { DeleteProductDto } from './dtos/delete-product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -13,10 +15,40 @@ export class ProductsController {
         return 'This action returns all products';
     }
 
-    @Post('/create')
+    @Post('/')
     @HttpCode(201)
-    create(@Body() createProductDto: CreateProductDto): string {
-        console.log(createProductDto)
-        return 'This action create a new product';
+    async create(@Body() createProductDto: CreateProductDto) {
+        let product = await this.productsService.findByName(createProductDto.name);
+        if(product) {
+            throw new HttpException('The item already exists!', HttpStatus.CONFLICT);
+        } else {
+            product = await this.productsService.create(createProductDto);
+            return product;
+        }
+    }
+
+    @Put('/')
+    @HttpCode(200)
+    async update(@Body() updateProductDto: UpdateProductDto) {
+        let product = await this.productsService.findById(updateProductDto.id);
+        if(!product) {
+            throw new HttpException('The item is not available!', HttpStatus.NOT_FOUND);
+        } else {
+            product.updatedAt = new Date();
+            product = await this.productsService.update(updateProductDto.id, updateProductDto);
+            return product;
+        }
+    }
+
+    @Delete('/')
+    @HttpCode(200)
+    async delete(@Body() deleteProductDto: DeleteProductDto) {
+        let product = await this.productsService.findById(deleteProductDto.id);
+        if(!product) {
+            throw new HttpException('The item is not available!', HttpStatus.NOT_FOUND);
+        } else {
+            product = await this.productsService.delete(deleteProductDto.id);
+            return product;
+        }
     }
 }
