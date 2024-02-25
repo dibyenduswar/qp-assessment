@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Post, Put, Req, UseGuards, } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Patch, Post, Put, Req, UseGuards, } from '@nestjs/common';
 import { Request } from 'express';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dtos/create-product.dto';
@@ -10,16 +10,11 @@ import { DeleteInventoryDto } from './dtos/delete-inventory.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 import { Roles } from 'src/auth/roles.decorator';
+import { AttachInventoryDto } from './dtos/attach-inventory.dto';
 
 @Controller('be/products')
 export class ProductsController {
     constructor(private productsService: ProductsService) {}
-
-    @Get()
-    @HttpCode(200)
-    findAll(@Req() request: Request): string {
-        return 'This action returns all products';
-    }
 
     @Post('/')
     @HttpCode(201)
@@ -93,6 +88,18 @@ export class ProductsController {
     async deleteInventory(@Body() deleteInventoryDto: DeleteInventoryDto) {
         try {
             return await this.productsService.deleteInventory(deleteInventoryDto);
+        } catch (error) {
+            throw new HttpException(error.message, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    @Patch('/inventory/attach')
+    @HttpCode(200)
+    @Roles('Admin')
+    @UseGuards(AuthGuard, RolesGuard)
+    async attachInventory(@Body() atachInventoryDto: AttachInventoryDto) {
+        try {
+            return await this.productsService.attachInventory(atachInventoryDto);
         } catch (error) {
             throw new HttpException(error.message, HttpStatus.FORBIDDEN);
         }

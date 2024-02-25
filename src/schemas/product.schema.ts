@@ -82,6 +82,9 @@ export class Product {
 
   @Prop({ type: InventorySchema }) 
   inventories: [Inventory]
+  
+  @Prop({ default: null }) 
+  inventoryBatch: string
 }
  
 

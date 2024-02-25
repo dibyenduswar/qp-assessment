@@ -7,6 +7,7 @@ import { UpdateProductDto } from './dtos/update-product.dto';
 import { CreateInventoryDto } from './dtos/create-inventory.dto';
 import { UpdateInventoryDto } from './dtos/update-inventory.dto';
 import { DeleteInventoryDto } from './dtos/delete-inventory.dto';
+import { AttachInventoryDto } from './dtos/attach-inventory.dto';
 
 @Injectable()
 export class ProductsService {
@@ -26,11 +27,11 @@ export class ProductsService {
     }
 
     async findById(productId : string ) : Promise<Product> {
-        return this.productModel.findOne({id: new mongoose.Types.ObjectId(productId), isDeleted: false}).lean();
+        return this.productModel.findOne({_id: new mongoose.Types.ObjectId(productId), isDeleted: false}).lean();
     }
 
     async update(id: string, updateProductDto: UpdateProductDto): Promise<Product> {
-        return this.productModel.findByIdAndUpdate(id, updateProductDto, { new:true });
+        return this.productModel.findByIdAndUpdate(id, updateProductDto, { new:true }).lean();
     }
 
     async delete(id: string): Promise<Product> {
@@ -143,6 +144,26 @@ export class ProductsService {
         
         return this.productModel.findByIdAndUpdate(
             deleteInventoryDto.productID,
+            update,
+            { new: true }
+        ).lean();    
+    }
+
+    async attachInventory(attachInventoryDto: AttachInventoryDto): Promise<Product> {
+        
+        let batInfo = await this.findProductBatch(attachInventoryDto.productId, attachInventoryDto.inventoryBatch);
+        if (!batInfo.length) {
+            throw new Error("Product batch is not available.");
+        }
+
+        const update = {
+            $set: {
+               'inventoryBatch': attachInventoryDto.inventoryBatch
+            }
+        };
+        
+        return this.productModel.findByIdAndUpdate(
+            attachInventoryDto.productId,
             update,
             { new: true }
         ).lean();    
