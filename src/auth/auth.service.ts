@@ -22,12 +22,10 @@ export class AuthService {
         throw new Error("User not registered!");        
     }
 
-    if(user.password != password) {
-        throw new Error("Invalid credentials!");
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new Error("Invalid credentials!");
     }
-
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) return false;
 
     delete user.password;
 

@@ -232,3 +232,249 @@ Note. /be is like backend and only accessible with Admin roles
   curl --location 'localhost:3000/orders/list' \
   --header 'Authorization: Bearer <token>'
   ```
+
+## MongoDB Collections
+
+1.  users:
+    Sample Data:
+    
+    ```bash
+      {
+          "_id" : ObjectId("65d9f1c7a217ced69a1f7633"),
+          "name" : "Admin",
+          "email" : "admin@gmail.com",
+          "password" : "123456",
+          "isActive" : true,
+          "isDeleted" : false,
+          "roles" : [
+              "Admin"
+          ]
+      }
+    ```
+
+2.  products:
+    Sample Data:
+
+    ```bash
+    {
+        "_id" : ObjectId("65dab43ac38cd3196c18dd26"),
+        "name" : "Colgate Maxfresh with Cooling Crystals Toothpaste  (300 g, Pack of 2)",
+        "brand" : "Colgate",
+        "make" : "ColgatePalmolive",
+        "model" : "Maxfresh with Cooling Crystals",
+        "unitQuantity" : NumberInt(1),
+        "minOrderQuantity" : NumberInt(4),
+        "maxOrderQuantity" : NumberInt(15),
+        "usedFor" : [
+            "Tooth Hygiene",
+            "Tooth Cleaning"
+        ],
+        "isActive" : true,
+        "isDeleted" : false,
+        "createdAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+        "updatedAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+        "inventoryBatch" : "CL-5054-20452",
+        "__v" : NumberInt(0),
+        "inventories" : [
+            {
+                "batchNo" : "CL-5054-20452",
+                "stockQty" : NumberInt(970),
+                "expiry" : "MAR-25",
+                "createdAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                "updatedAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                "isDeleted" : false,
+                "isActive" : true,
+                "priceListing" : NumberInt(78),
+                "priceListingDisc" : NumberInt(15),
+                "priceListingEffective" : 66.3,
+                "_id" : ObjectId("65dab477c38cd3196c18dd29")
+            },
+            {
+                "batchNo" : "CL-5054-20453",
+                "stockQty" : NumberInt(2000),
+                "expiry" : "MAR-25",
+                "createdAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                "updatedAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                "isDeleted" : false,
+                "isActive" : true,
+                "priceListing" : NumberInt(78),
+                "priceListingDisc" : NumberInt(15),
+                "priceListingEffective" : 66.3,
+                "_id" : ObjectId("65dab477c38cd3196c18dd29")
+            }
+        ]
+    }
+    ```
+
+3.  carts:
+    Sample Data:
+
+    ```bash
+    {
+        "_id" : ObjectId("65dae3ac35da3e64fe44e0b8"),
+        "userID" : ObjectId("65d9f1c7a217ced69a1f7634"),
+        "productID" : ObjectId("65dab43ac38cd3196c18dd26"),
+        "inventoryBatch" : "CL-5054-20452",
+        "orderQty" : NumberInt(5),
+        "orderTotalValue" : NumberInt(390),
+        "orderTotalDisc" : 58.5,
+        "orderTotalFinalValue" : 331.5,
+        "productSnapshot" : [
+            {
+                "_id" : ObjectId("65dab43ac38cd3196c18dd26"),
+                "name" : "Colgate Maxfresh with Cooling Crystals Toothpaste  (300 g, Pack of 2)",
+                "brand" : "Colgate",
+                "make" : "ColgatePalmolive",
+                "model" : "Maxfresh with Cooling Crystals",
+                "unitQuantity" : NumberInt(1),
+                "minOrderQuantity" : NumberInt(4),
+                "maxOrderQuantity" : NumberInt(15),
+                "usedFor" : [
+                    "Tooth Hygiene",
+                    "Tooth Cleaning"
+                ],
+                "isActive" : true,
+                "isDeleted" : false,
+                "createdAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+                "updatedAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+                "inventoryBatch" : "CL-5054-20452",
+                "__v" : NumberInt(0),
+                "inventories" : [
+                    {
+                        "batchNo" : "CL-5054-20452",
+                        "stockQty" : NumberInt(970),
+                        "expiry" : "MAR-25",
+                        "createdAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                        "updatedAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                        "isDeleted" : false,
+                        "isActive" : true,
+                        "priceListing" : NumberInt(78),
+                        "priceListingDisc" : NumberInt(15),
+                        "priceListingEffective" : 66.3,
+                        "_id" : ObjectId("65dab477c38cd3196c18dd29")
+                    }
+                ]
+            }
+        ],
+        "createdAt" : ISODate("2024-02-25T06:29:21.666+0000"),
+        "updatedAt" : ISODate("2024-02-25T06:29:21.666+0000"),
+        "__v" : NumberInt(0)
+    }
+    ```
+
+4.  orders:
+    Sample Data:
+
+    ```bash
+    {
+      "_id" : ObjectId("65dadce1feaadb0a67fa7d20"),
+      "userID" : ObjectId("65d9f1c7a217ced69a1f7634"),
+      "orderTotalValue" : NumberInt(780),
+      "orderTotalDisc" : NumberInt(390),
+      "orderTotalFinalValue" : NumberInt(390),
+      "cart" : [
+          {
+              "userID" : ObjectId("65d9f1c7a217ced69a1f7634"),
+              "productID" : ObjectId("65dab43ac38cd3196c18dd26"),
+              "inventoryBatch" : "CL-5054-20452",
+              "orderQty" : NumberInt(5),
+              "orderTotalValue" : NumberInt(390),
+              "orderTotalDisc" : 331.5,
+              "orderTotalFinalValue" : 58.5,
+              "productSnapshot" : [
+                  {
+                      "_id" : ObjectId("65dab43ac38cd3196c18dd26"),
+                      "name" : "Colgate Maxfresh with Cooling Crystals Toothpaste  (300 g, Pack of 2)",
+                      "brand" : "Colgate",
+                      "make" : "ColgatePalmolive",
+                      "model" : "Maxfresh with Cooling Crystals",
+                      "unitQuantity" : NumberInt(1),
+                      "minOrderQuantity" : NumberInt(4),
+                      "maxOrderQuantity" : NumberInt(15),
+                      "usedFor" : [
+                          "Tooth Hygiene",
+                          "Tooth Cleaning"
+                      ],
+                      "isActive" : true,
+                      "isDeleted" : false,
+                      "createdAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+                      "updatedAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+                      "inventoryBatch" : "CL-5054-20452",
+                      "__v" : NumberInt(0),
+                      "inventories" : [
+                          {
+                              "batchNo" : "CL-5054-20452",
+                              "stockQty" : NumberInt(1000),
+                              "expiry" : "MAR-25",
+                              "createdAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                              "updatedAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                              "isDeleted" : false,
+                              "isActive" : true,
+                              "priceListing" : NumberInt(78),
+                              "priceListingDisc" : NumberInt(15),
+                              "priceListingEffective" : 66.3,
+                              "_id" : ObjectId("65dab477c38cd3196c18dd29")
+                          }
+                      ]
+                  }
+              ],
+              "createdAt" : ISODate("2024-02-25T04:48:54.384+0000"),
+              "updatedAt" : ISODate("2024-02-25T04:48:54.384+0000"),
+              "_id" : ObjectId("65dac6b833e894a2e14393d0")
+          },
+          {
+              "userID" : ObjectId("65d9f1c7a217ced69a1f7634"),
+              "productID" : ObjectId("65dab43ac38cd3196c18dd26"),
+              "inventoryBatch" : "CL-5054-20452",
+              "orderQty" : NumberInt(5),
+              "orderTotalValue" : NumberInt(390),
+              "orderTotalDisc" : 58.5,
+              "orderTotalFinalValue" : 331.5,
+              "productSnapshot" : [
+                  {
+                      "_id" : ObjectId("65dab43ac38cd3196c18dd26"),
+                      "name" : "Colgate Maxfresh with Cooling Crystals Toothpaste  (300 g, Pack of 2)",
+                      "brand" : "Colgate",
+                      "make" : "ColgatePalmolive",
+                      "model" : "Maxfresh with Cooling Crystals",
+                      "unitQuantity" : NumberInt(1),
+                      "minOrderQuantity" : NumberInt(4),
+                      "maxOrderQuantity" : NumberInt(15),
+                      "usedFor" : [
+                          "Tooth Hygiene",
+                          "Tooth Cleaning"
+                      ],
+                      "isActive" : true,
+                      "isDeleted" : false,
+                      "createdAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+                      "updatedAt" : ISODate("2024-02-25T03:24:51.112+0000"),
+                      "inventoryBatch" : "CL-5054-20452",
+                      "__v" : NumberInt(0),
+                      "inventories" : [
+                          {
+                              "batchNo" : "CL-5054-20452",
+                              "stockQty" : NumberInt(1000),
+                              "expiry" : "MAR-25",
+                              "createdAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                              "updatedAt" : ISODate("2024-02-25T03:24:51.103+0000"),
+                              "isDeleted" : false,
+                              "isActive" : true,
+                              "priceListing" : NumberInt(78),
+                              "priceListingDisc" : NumberInt(15),
+                              "priceListingEffective" : 66.3,
+                              "_id" : ObjectId("65dab477c38cd3196c18dd29")
+                          }
+                      ]
+                  }
+              ],
+              "createdAt" : ISODate("2024-02-25T04:50:12.731+0000"),
+              "updatedAt" : ISODate("2024-02-25T04:50:12.731+0000"),
+              "_id" : ObjectId("65dac70a3c3c0eace9d5137e")
+          }
+      ],
+      "createdAt" : ISODate("2024-02-25T06:23:26.620+0000"),
+      "updatedAt" : ISODate("2024-02-25T06:23:26.620+0000"),
+      "status" : "Placed",
+      "__v" : NumberInt(0)
+  }
+    ```
