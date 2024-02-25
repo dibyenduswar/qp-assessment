@@ -41,6 +41,11 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+## Running the app using Docker
+
+```bash
+  docker run --name grocery-api -p 3000:3000 -d prodocker21/qp-assessment:latest
+```
 
 ## Repo Description
 
@@ -66,6 +71,12 @@ The APIs can be acessed by following predefined user credentials :
     "email": "user@gmail.com",
     "password": "123456"
 }
+
+## Postman Collection
+
+```bash
+  https://api.postman.com/collections/21914986-85b45a6a-601f-475e-bcf6-036ace6c202c?access_key=PMAT-01HQFMKVPHYB2C543WF45KV4DX
+```
 
 ## List of End Points
 
@@ -243,7 +254,7 @@ Note. /be is like backend and only accessible with Admin roles
           "_id" : ObjectId("65d9f1c7a217ced69a1f7633"),
           "name" : "Admin",
           "email" : "admin@gmail.com",
-          "password" : "123456",
+          "password" : "$2b$10$yJaH84gQVtn0VCrpO8kuHeSwJJNC.gUtknIeh7xx6hqZGnvsmFx1W",
           "isActive" : true,
           "isDeleted" : false,
           "roles" : [
@@ -477,4 +488,5 @@ Note. /be is like backend and only accessible with Admin roles
       "status" : "Placed",
       "__v" : NumberInt(0)
   }
-    ```
+    
+  ```
